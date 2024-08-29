@@ -1,4 +1,4 @@
 pillow
 requests
-libxduauth
+libxduauth >= 1.9.0
 reprint
