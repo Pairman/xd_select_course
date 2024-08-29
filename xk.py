@@ -8,6 +8,14 @@ from libxduauth import XKSession
 from reprint import output
 from requests.exceptions import RequestException
 
+from PIL.ImageShow import Viewer as _Viewer, register as _register
+from libxduauth.utils.cli_viewer import _image_to_ascii
+class _CliViewer(_Viewer):
+    def show(self, image, **options):
+        print(_image_to_ascii(image))
+        return True
+_register(_CliViewer, 0)
+
 with open('config.json', 'r') as f:
     config = json.load(f)
     auth = config['authentication']
@@ -198,7 +206,14 @@ class GetClasses(KThread):
 
 
 if __name__ == "__main__":
-    ses = XKSession(auth['username'], auth['password'], auth['keyword'])
+    for _ in range(3):
+        try:
+            ses = XKSession(auth['username'], auth['password'], auth['keyword'])
+        except Exception as e:
+            print(f"{type(e)}: {e}")
+        else:
+            if ses.is_loggedin():
+                break
     ses.request = rate_limited(ses.request)
     print('当前轮次：' + ses.current_batch['name'])
 
