@@ -206,6 +206,7 @@ class GetClasses(KThread):
 
 
 if __name__ == "__main__":
+    ses = None
     for _ in range(3):
         try:
             ses = XKSession(auth['username'], auth['password'], auth['keyword'])
@@ -214,6 +215,8 @@ if __name__ == "__main__":
         else:
             if ses.is_loggedin():
                 break
+    if not ses:
+        exit("Login failed.")
     ses.request = rate_limited(ses.request)
     print('当前轮次：' + ses.current_batch['name'])
 
