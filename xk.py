@@ -211,7 +211,7 @@ if __name__ == "__main__":
         try:
             ses = XKSession(auth['username'], auth['password'], auth['keyword'])
         except Exception as e:
-            print(f"{type(e)}: {e}")
+            print(f"{type(e).__name__}: {e}")
         else:
             if ses.is_loggedin():
                 break
